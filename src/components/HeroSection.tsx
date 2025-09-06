@@ -3,6 +3,7 @@ import { Download, Github, Linkedin, Mail, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import ProfileCard from '@/components/ui/profile-card';
 import TextType from '@/components/ui/text-type';
+import { toast } from "sonner";
 import profileImage from '@/assets/profile-image.png';
 import heroBg from '@/assets/hero-bg.png';
 
@@ -22,13 +23,15 @@ const HeroSection = () => {
   }, [currentIndex, fullText]);
 
   const handleDownloadCV = () => {
-    // Create a dummy CV download (in real implementation, this would be a real PDF)
     const link = document.createElement('a');
-    link.href = '#';
-    link.download = 'Dibyaranjan_Jena_CV.pdf';
+    link.href = '/Dibyaranjan Jena_Resume.pdf';
+    link.download = 'Dibyaranjan Jena_Resume.pdf';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    toast("Thank you for your interest!", {
+      description: "Please leave a comment in the Contact Section.",
+    });
   };
 
   return (

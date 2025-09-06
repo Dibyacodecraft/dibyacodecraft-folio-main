@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { Mail, Github, Linkedin, Send, MapPin, Phone } from 'lucide-react';
+import { Mail, Github, Linkedin, Send } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { useToast } from '@/hooks/use-toast';
+import { toast } from 'sonner';
 
 const ContactSection = () => {
   const [formData, setFormData] = useState({
@@ -14,7 +14,7 @@ const ContactSection = () => {
     message: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { toast } = useToast();
+  
 
   const contactInfo = [
     {
@@ -51,20 +51,43 @@ const ContactSection = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate form submission
-    setTimeout(() => {
-      toast({
-        title: "Message Sent!",
-        description: "Thank you for reaching out. I'll get back to you soon!",
+    // Web3Form API integration (fixed)
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          access_key: '2659c1c1-b13a-429e-93df-403a6391824b', // Replace with your Web3Forms access key
+          from_name: formData.name,
+          replyto: formData.email,
+          subject: formData.subject,
+          message: formData.message
+        }),
       });
-      setFormData({ name: '', email: '', subject: '', message: '' });
-      setIsSubmitting(false);
-    }, 1000);
+      const result = await response.json();
+      if (result.success) {
+        toast("Message sent!", {
+          description: "Thank you for reaching out. I'll get back to you soon.",
+        });
+        setFormData({ name: '', email: '', subject: '', message: '' });
+      } else {
+        toast("Failed to send message", {
+          description: result.message || "Please try again later. Check your Web3Forms access key and setup.",
+        });
+      }
+    } catch (error) {
+      toast("Failed to send message", {
+        description: "Please check your internet connection and try again.",
+      });
+    }
+    setIsSubmitting(false);
   };
 
   return (
     <section id="contact" className="py-20 bg-card/30">
-      <div className="container mx-auto px-4">
+      <div className="max-w-7xl mx-auto px-4 w-full">
         <div className="text-center mb-16">
           <h2 className="text-4xl lg:text-5xl font-orbitron font-bold text-gradient mb-4">
             Let's Connect
@@ -74,9 +97,9 @@ const ContactSection = () => {
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12">
+        <div className="flex flex-col lg:flex-row gap-12">
           {/* Contact Information */}
-          <div className="space-y-8">
+          <div className="flex-1 space-y-8 min-w-0">
             <div>
               <h3 className="text-2xl font-orbitron font-bold text-foreground mb-6">
                 Get In Touch
@@ -142,97 +165,101 @@ const ContactSection = () => {
           </div>
 
           {/* Contact Form */}
-          <div>
-            <Card className="spotlight-card neon-border bg-card/50 backdrop-blur-sm">
-              <CardContent className="p-8">
-                <h3 className="text-2xl font-orbitron font-bold text-foreground mb-6">
-                  Send a Message
-                </h3>
-
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-inter font-medium text-foreground mb-2">
-                        Name *
-                      </label>
-                      <Input
-                        name="name"
-                        value={formData.name}
-                        onChange={handleInputChange}
-                        required
-                        className="neon-border bg-background/50 font-inter"
-                        placeholder="Your full name"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-inter font-medium text-foreground mb-2">
-                        Email *
-                      </label>
-                      <Input
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleInputChange}
-                        required
-                        className="neon-border bg-background/50 font-inter"
-                        placeholder="your.email@example.com"
-                      />
-                    </div>
-                  </div>
-
+          <div className="flex-1 min-w-0">
+            <div className="spotlight-card neon-border bg-card/50 backdrop-blur-sm p-8">
+              <h3 className="text-2xl font-orbitron font-bold text-foreground mb-6">
+                Send a Message
+              </h3>
+              <form onSubmit={handleSubmit} className="space-y-6" autoComplete="off" style={{ pointerEvents: 'auto', zIndex: 1 }}>
+                <div className="grid md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-inter font-medium text-foreground mb-2">
-                      Subject *
+                    <label htmlFor="contact-name" className="block text-sm font-inter font-medium text-foreground mb-2">
+                      Name *
                     </label>
                     <Input
-                      name="subject"
-                      value={formData.subject}
+                      id="contact-name"
+                      name="name"
+                      type="text"
+                      value={formData.name}
                       onChange={handleInputChange}
                       required
+                      autoComplete="off"
                       className="neon-border bg-background/50 font-inter"
-                      placeholder="What's this about?"
+                      placeholder="Your full name"
                     />
                   </div>
-
                   <div>
-                    <label className="block text-sm font-inter font-medium text-foreground mb-2">
-                      Message *
+                    <label htmlFor="contact-email" className="block text-sm font-inter font-medium text-foreground mb-2">
+                      Email *
                     </label>
-                    <Textarea
-                      name="message"
-                      value={formData.message}
+                    <Input
+                      id="contact-email"
+                      type="email"
+                      name="email"
+                      value={formData.email}
                       onChange={handleInputChange}
                       required
-                      rows={6}
-                      className="neon-border bg-background/50 font-inter resize-none"
-                      placeholder="Tell me about your project, requirements, timeline, and any specific details..."
+                      autoComplete="off"
+                      className="neon-border bg-background/50 font-inter"
+                      placeholder="your.email@example.com"
                     />
                   </div>
-
-                  <Button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="w-full gradient-primary hover-lift font-inter font-semibold group"
-                  >
-                    {isSubmitting ? (
-                      <>
-                        <div className="w-4 h-4 border-2 border-background border-t-transparent rounded-full animate-spin mr-2" />
-                        Sending...
-                      </>
-                    ) : (
-                      <>
-                        <Send className="mr-2 h-4 w-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                        Send Message
-                      </>
-                    )}
-                  </Button>
-
-                  <p className="text-xs text-muted-foreground font-inter text-center">
-                    I'll get back to you within 24 hours. Looking forward to working together!
-                  </p>
-                </form>
-              </CardContent>
-            </Card>
+                </div>
+                <div>
+                  <label htmlFor="contact-subject" className="block text-sm font-inter font-medium text-foreground mb-2">
+                    Subject *
+                  </label>
+                  <Input
+                    id="contact-subject"
+                    name="subject"
+                    type="text"
+                    value={formData.subject}
+                    onChange={handleInputChange}
+                    required
+                    autoComplete="off"
+                    className="neon-border bg-background/50 font-inter"
+                    placeholder="What's this about?"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="contact-message" className="block text-sm font-inter font-medium text-foreground mb-2">
+                    Message *
+                  </label>
+                  <Textarea
+                    id="contact-message"
+                    name="message"
+                    value={formData.message}
+                    onChange={handleInputChange}
+                    required
+                    rows={6}
+                    autoComplete="off"
+                    className="neon-border bg-background/50 font-inter resize-none"
+                    placeholder="Tell me about your project, requirements, timeline, and any specific details..."
+                  />
+                </div>
+                <Button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full gradient-primary hover-lift font-inter font-semibold group"
+                  tabIndex={0}
+                >
+                  {isSubmitting ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-background border-t-transparent rounded-full animate-spin mr-2" />
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      <Send className="mr-2 h-4 w-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                      Send Message
+                    </>
+                  )}
+                </Button>
+                <p className="text-xs text-muted-foreground font-inter text-center">
+                  I'll get back to you within 24 hours. Looking forward to working together!
+                </p>
+              </form>
+            </div>
           </div>
         </div>
       </div>

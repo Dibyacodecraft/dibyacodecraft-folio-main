@@ -1,73 +1,88 @@
-# Welcome to your Lovable project
+# Personal Portfolio Website
 
-## Project info
+This is a personal portfolio website built with React, Vite, TypeScript, and styled with Tailwind CSS and shadcn-ui.
 
-**URL**: https://lovable.dev/projects/72afcbd9-f32a-4e0d-b76c-e5e3bf8f8baa
+## Features
 
-## How can I edit this code?
+*   **Single-page layout:** Smooth scrolling navigation to different sections of the portfolio.
+*   **Component-based architecture:** Built with reusable React components.
+*   **Responsive design:** Adapts to different screen sizes for a great user experience on any device.
+*   **Modern UI:** Styled with Tailwind CSS and shadcn-ui for a clean and modern look.
+*   **Interactive elements:** Includes engaging UI elements like light rays and a custom cursor.
 
-There are several ways of editing your application.
+## Sections
 
-**Use Lovable**
+The portfolio is divided into the following sections:
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/72afcbd9-f32a-4e0d-b76c-e5e3bf8f8baa) and start prompting.
+*   **Home:** A hero section to welcome visitors.
+*   **About:** Information about me.
+*   **Skills:** A list of my technical skills.
+*   **Projects:** A showcase of my work.
+*   **Services:** Services I offer.
+*   **Contact:** A form to get in touch with me.
 
-Changes made via Lovable will be committed automatically to this repo.
+## Technologies Used
 
-**Use your preferred IDE**
+*   [React](https://reactjs.org/)
+*   [Vite](https://vitejs.dev/)
+*   [TypeScript](https://www.typescriptlang.org/)
+*   [Tailwind CSS](https://tailwindcss.com/)
+*   [shadcn-ui](https://ui.shadcn.com/)
+*   [React Router](https://reactrouter.com/)
+*   [GSAP](https://greensock.com/gsap/)
+*   [Framer Motion](https://www.framer.com/motion/)
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## Getting Started
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+To get a local copy up and running, follow these simple steps.
 
-Follow these steps:
+### Prerequisites
+
+*   Node.js and npm (or bun) installed on your machine.
+
+### Installation
+
+1.  Clone the repo
+    ```sh
+    git clone https://github.com/your_username/your_project_name.git
+    ```
+2.  Install NPM packages
+    ```sh
+    npm install
+    ```
+    or if you use bun
+    ```sh
+    bun install
+    ```
+
+### Running the Application
+
+Use the following command to run the development server:
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+or
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```sh
+bun dev
+```
 
-**Use GitHub Codespaces**
+This will start the development server at `http://localhost:5173`.
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## Building for Production
 
-## What technologies are used for this project?
+To create a production build, run:
 
-This project is built with:
+```sh
+npm run build
+```
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+or
 
-## How can I deploy this project?
+```sh
+bun run build
+```
 
-Simply open [Lovable](https://lovable.dev/projects/72afcbd9-f32a-4e0d-b76c-e5e3bf8f8baa) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+This will create a `dist` folder with the optimized and minified files for deployment.
