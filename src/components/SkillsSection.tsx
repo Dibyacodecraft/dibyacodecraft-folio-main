@@ -97,41 +97,20 @@ const SkillsSection = () => {
           ))}
         </div>
 
-        {/* Additional Technologies */}
-        <div className="mt-16 text-center">
-          <h3 className="text-2xl font-orbitron font-bold text-foreground mb-8">
-            Additional Technologies
-          </h3>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+        {/* Additional Technologies - Dome Gallery style */}
+        <div className="mt-16">
+          <h3 className="text-2xl text-center font-orbitron font-bold text-foreground mb-8">Additional Technologies</h3>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 perspective-[1200px]">
             {[
-              { name: 'TensorFlow', icon: '🧠' },
-              { name: 'PyTorch', icon: '🔥' },
-              { name: 'Pandas', icon: '🐼' },
-              { name: 'NumPy', icon: '🔢' },
-              { name: 'OpenCV', icon: '👁️' },
-              { name: 'Scikit-learn', icon: '📊' },
-              { name: 'FastAPI', icon: '⚡' },
-              { name: 'Django', icon: '🌐' },
-              { name: 'Git', icon: '🌟' },
-              { name: 'Docker', icon: '🐳' },
-              { name: 'AWS', icon: '☁️' },
-              { name: 'Google Cloud', icon: '🌩️' }
-            ].map((tech, index) => (
-              <TiltedCard
-                key={tech.name}
-                rotateAmplitude={8}
-                scaleOnHover={1.02}
-                showTooltip={false}
-                showOverlayContent={false}
-                className="cursor-target h-20"
-              >
-                <div className="flex flex-col items-center justify-center h-full p-2">
-                  <span className="text-2xl mb-1">{tech.icon}</span>
-                  <span className="text-xs font-inter text-center text-muted-foreground">
-                    {tech.name}
-                  </span>
+              'TensorFlow','PyTorch','Pandas','NumPy','OpenCV','Scikit-learn','FastAPI','Django','Git','Docker','AWS','Google Cloud'
+            ].map((name, i) => (
+              <div key={name} className="relative h-24 rounded-xl neon-border overflow-hidden bg-card/60 backdrop-blur group"
+                   style={{ transform: `rotateX(12deg) rotateY(${(i%6-2)*2}deg)` }}>
+                <div className="absolute -inset-[1px] rounded-xl bg-gradient-to-br from-neon-purple via-electric-cyan to-neon-green opacity-20 group-hover:opacity-40 transition-opacity" />
+                <div className="relative z-10 h-full flex flex-col items-center justify-center">
+                  <span className="text-xs font-inter text-muted-foreground">{name}</span>
                 </div>
-              </TiltedCard>
+              </div>
             ))}
           </div>
         </div>

@@ -14,6 +14,11 @@ const ContactSection = () => {
     message: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const envKey = import.meta.env.VITE_WEB3FORMS_KEY as string | undefined;
+  const metaKey = (typeof document !== 'undefined'
+    ? (document.querySelector('meta[name="web3forms-key"]') as HTMLMetaElement | null)?.content
+    : undefined);
+  const web3formsKey = (envKey && envKey.trim()) || (metaKey && metaKey.trim()) || '2659c1c1-b13a-429e-93df-403a6391824b';
   
 
   const contactInfo = [
@@ -51,7 +56,7 @@ const ContactSection = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Web3Form API integration (fixed)
+    // Web3Form API integration
     try {
       const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
@@ -59,11 +64,14 @@ const ContactSection = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          access_key: '2659c1c1-b13a-429e-93df-403a6391824b', // Replace with your Web3Forms access key
+          access_key: web3formsKey,
           from_name: formData.name,
-          replyto: formData.email,
+          email: formData.email,
           subject: formData.subject,
-          message: formData.message
+          message: formData.message,
+          replyto: formData.email,
+          botcheck: '',
+          redirect: '',
         }),
       });
       const result = await response.json();
@@ -76,11 +84,17 @@ const ContactSection = () => {
         toast("Failed to send message", {
           description: result.message || "Please try again later. Check your Web3Forms access key and setup.",
         });
+        if (window && window.console) {
+          console.error('Web3Forms error:', result);
+        }
       }
     } catch (error) {
       toast("Failed to send message", {
         description: "Please check your internet connection and try again.",
       });
+      if (window && window.console) {
+        console.error('Web3Forms fetch error:', error);
+      }
     }
     setIsSubmitting(false);
   };

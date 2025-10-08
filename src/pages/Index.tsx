@@ -8,6 +8,8 @@ import ContactSection from '@/components/ContactSection';
 import Footer from '@/components/Footer';
 import LightRays from '@/components/ui/light-rays';
 import TargetCursor from '@/components/ui/target-cursor';
+import CertificatesGallery from '@/components/CertificatesGallery';
+import HomeTaskbar from '@/components/HomeTaskbar';
 
 const Index = () => {
   return (
@@ -29,6 +31,7 @@ const Index = () => {
       />
       <Navigation />
       <section id="home">
+        <HomeTaskbar />
         <HeroSection />
       </section>
       <section id="about">
@@ -39,6 +42,9 @@ const Index = () => {
       </section>
       <section id="projects">
         <ProjectsSection />
+      </section>
+      <section id="certificates">
+        <CertificatesGallery />
       </section>
       <section id="services">
         <ServicesSection />

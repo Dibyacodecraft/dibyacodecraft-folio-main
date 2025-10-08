@@ -1,13 +1,14 @@
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { ExternalLink, Github, Code, Shield, MessageSquare, Calculator } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import SpotlightCard from '@/components/ui/spotlight-card';
+import { useQuery } from '@tanstack/react-query';
 
 const ProjectsSection = () => {
   const [hoveredProject, setHoveredProject] = useState<number | null>(null);
 
-  const projects = [
+  const staticProjects = [
     {
       title: "Disaster Management App",
       description: "A comprehensive tool for aiding communities during natural disasters using modern web technologies. Features real-time alerts, resource tracking, and emergency communication.",
@@ -77,6 +78,37 @@ const ProjectsSection = () => {
       live: "#"
     }
   ];
+
+  const { data: repos } = useQuery({
+    queryKey: ['gh-repos'],
+    queryFn: async () => {
+      const res = await fetch('https://api.github.com/users/Dibyacodecraft/repos?sort=updated');
+      if (!res.ok) return [] as any[];
+      const json = await res.json();
+      return json as Array<any>;
+    },
+    staleTime: 1000 * 60 * 10,
+  });
+
+  const githubProjects = useMemo(() => {
+    return (repos || [])
+      .filter((r) => !r.fork)
+      .slice(0, 6)
+      .map((r) => ({
+        title: r.name,
+        description: r.description || 'No description provided.',
+        icon: Code,
+        technologies: [],
+        features: [],
+        color: 'text-neon-blue',
+        gradient: 'from-neon-blue to-neon-purple',
+        status: 'GitHub',
+        github: r.html_url,
+        live: r.homepage || r.html_url,
+      }));
+  }, [repos]);
+
+  const projects = [...staticProjects, ...githubProjects];
 
   return (
     <section id="projects" className="py-20 bg-card/30">
