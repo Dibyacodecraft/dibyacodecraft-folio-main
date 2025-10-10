@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Download, Github, Linkedin, Mail, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import ProfileCard from '@/components/ui/profile-card';
@@ -34,8 +34,27 @@ const HeroSection = () => {
     });
   };
 
+  const containerRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const handleMove = (e: MouseEvent) => {
+      const rect = el.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      // set smaller parallax values
+      el.style.setProperty('--mx', `${x * 0.02}px`);
+      el.style.setProperty('--my', `${y * 0.02}px`);
+    };
+
+    window.addEventListener('mousemove', handleMove);
+    return () => window.removeEventListener('mousemove', handleMove);
+  }, []);
+
   return (
-    <section id="home" className="min-h-screen relative flex items-center overflow-hidden">
+    <section id="home" ref={containerRef} className="min-h-screen relative flex items-center overflow-hidden hero-parallax">
       {/* Background */}
       <div 
         className="absolute inset-0 opacity-20"
@@ -46,12 +65,13 @@ const HeroSection = () => {
         }}
       />
       
-      {/* Animated Background Lines */}
-      <div className="absolute inset-0">
+      {/* Animated Background Lines (parallax depth) */}
+      <div className="absolute inset-0 parallax-layer" data-depth="0.2">
         {[...Array(5)].map((_, i) => (
           <div
             key={i}
-            className="hyperspeed-line"
+            className="hyperspeed-line parallax-layer"
+            data-depth={0.4 + i * 0.05}
             style={{
               top: `${20 + i * 20}%`,
               animationDelay: `${i * 0.2}s`,
@@ -63,10 +83,10 @@ const HeroSection = () => {
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Content */}
-          <div className="space-y-8 animate-slide-up">
+          {/* Content (staggered) */}
+          <div className="space-y-8 stagger">
             <div className="space-y-4">
-              <h1 className="text-5xl lg:text-7xl font-orbitron font-bold">
+              <h1 className="text-5xl lg:text-7xl font-orbitron font-bold stagger-item [--delay:0.05s]">
                 <TextType 
                   text="Dibyaranjan Jena"
                   className="text-gradient"
@@ -78,20 +98,20 @@ const HeroSection = () => {
               </h1>
               
               <div className="h-16">
-                <p className="text-xl lg:text-2xl font-inter text-muted-foreground">
+                <p className="text-xl lg:text-2xl font-inter text-muted-foreground stagger-item [--delay:0.15s]">
                   {displayText}
                   <span className="animate-pulse text-neon-purple">|</span>
                 </p>
               </div>
             </div>
 
-            <p className="text-lg font-inter text-muted-foreground max-w-2xl">
+            <p className="text-lg font-inter text-muted-foreground max-w-2xl stagger-item [--delay:0.25s]">
               B-Tech student passionate about creating innovative solutions through code. 
               Experienced in hackathons, cloud technologies, and real-world AI/ML applications.
             </p>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row gap-4 stagger-item [--delay:0.35s]">
               <Button 
                 size="lg" 
                 className="gradient-primary hover-lift font-inter font-semibold group cursor-target"
@@ -113,11 +133,12 @@ const HeroSection = () => {
             </div>
 
             {/* Social Links */}
-            <div className="flex space-x-6 pt-4">
+            <div className="flex space-x-6 pt-4 stagger-item [--delay:0.45s]">
               <a 
                 href="https://github.com/Dibyacodecraft" 
                 target="_blank" 
                 rel="noopener noreferrer"
+                title="GitHub"
                 className="text-muted-foreground hover:text-neon-purple transition-all duration-300 hover:scale-110"
               >
                 <Github size={24} />
@@ -126,12 +147,14 @@ const HeroSection = () => {
                 href="https://linkedin.com/in/dibyaranjan-jena-184659316" 
                 target="_blank" 
                 rel="noopener noreferrer"
+                title="LinkedIn"
                 className="text-muted-foreground hover:text-neon-blue transition-all duration-300 hover:scale-110"
               >
                 <Linkedin size={24} />
               </a>
               <a 
                 href="mailto:dibya4096@gmail.com"
+                title="Email"
                 className="text-muted-foreground hover:text-neon-green transition-all duration-300 hover:scale-110"
               >
                 <Mail size={24} />
@@ -139,8 +162,8 @@ const HeroSection = () => {
             </div>
           </div>
 
-          {/* React Bits Profile Card */}
-          <div className="flex justify-center lg:justify-end">
+          {/* React Bits Profile Card (parallax layer) */}
+          <div className="flex justify-center lg:justify-end parallax-layer" data-depth="0.6">
             <ProfileCard
               avatarUrl={profileImage}
               miniAvatarUrl={profileImage}

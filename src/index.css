@@ -230,6 +230,30 @@
   }
 }
 
+/* Intro stagger helpers (used by HeroSection) */
+.stagger {
+  --stagger-gap: 0.08s;
+}
+.stagger .stagger-item {
+  opacity: 0;
+  transform: translateY(24px) translateZ(0);
+  animation: slideUp 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: var(--delay, 0s);
+}
+
+/* Parallax layers - container provides --mx and --my in px */
+.hero-parallax {
+  --mx: 0px;
+  --my: 0px;
+}
+.parallax-layer {
+  transform: translate3d(var(--mx), var(--my), 0);
+  transition: transform 120ms linear;
+}
+.parallax-layer[data-depth] {
+  /* depth is a multiplier applied in inline style via calc() */
+}
+
 /* Hyperspeed background animation */
 @keyframes hyperspeed {
   from { transform: translateX(-100px); }
