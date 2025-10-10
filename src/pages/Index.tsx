@@ -7,12 +7,14 @@ import ServicesSection from '@/components/ServicesSection';
 import ContactSection from '@/components/ContactSection';
 import Footer from '@/components/Footer';
 import LightRays from '@/components/ui/light-rays';
-import TargetCursor from '@/components/ui/target-cursor';
+import CanvasCursor from '@/components/ui/canvas-cursor';
+import HyperspeedBackground from '@/components/ui/hyperspeed';
 import CertificatesGallery from '@/components/CertificatesGallery';
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-dark text-white overflow-x-hidden">
+    <div className="min-h-screen bg-dark text-white overflow-x-hidden relative">
+      <HyperspeedBackground />
       <LightRays 
         raysColor="270" 
         raysOrigin="top-center"
@@ -23,10 +25,11 @@ const Index = () => {
         saturation={0.8}
         mouseInfluence={0.2}
       />
-      <TargetCursor 
+      <CanvasCursor
         targetSelector=".cursor-target"
-        spinDuration={2}
         hideDefaultCursor={true}
+        color={'255,255,255'}
+        size={22}
       />
       <Navigation />
       <section id="home">
