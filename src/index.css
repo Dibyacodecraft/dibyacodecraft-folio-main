@@ -274,7 +274,7 @@
   inset: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 0;
+  z-index: 0; /* background layer */
   pointer-events: none;
   mix-blend-mode: screen;
   opacity: 0.95;
@@ -286,7 +286,7 @@
   inset: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 9999;
+  z-index: 1500; /* cursor sits above page UI but below intro */
   pointer-events: none; /* never block interactions */
 }
 
@@ -294,7 +294,7 @@
 .intro-overlay {
   position: fixed;
   inset: 0;
-  z-index: 2000;
+  z-index: 10000; /* place intro above all interactive layers */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -314,7 +314,7 @@
   bottom: 0;
   width: 50%;
   background: linear-gradient(180deg, rgba(0,0,0,0.95), rgba(30,30,40,0.95));
-  z-index: 2010;
+  z-index: 10010; /* on top of overlay to ensure wipe covers everything */
 }
 .intro-panel.left { left: 0; transform: translateX(0%); }
 .intro-panel.right { right: 0; transform: translateX(0%); }
@@ -335,7 +335,7 @@
   transform: translateX(-50%);
   width: 680px;
   max-width: calc(100% - 4rem);
-  z-index: 2020;
+  z-index: 10020; /* above overlay panels */
   pointer-events: none;
 }
 .macbook-shell {

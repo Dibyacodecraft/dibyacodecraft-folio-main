@@ -106,8 +106,7 @@ const HeroSection = () => {
             </div>
 
             <p className="text-lg font-inter text-muted-foreground max-w-2xl stagger-item [--delay:0.25s]">
-              B-Tech student passionate about creating innovative solutions through code. 
-              Experienced in hackathons, cloud technologies, and real-world AI/ML applications.
+              I’m a Python Developer passionate about AI, Machine Learning, and intelligent automation. I love creating systems that blend data, design, and logic to solve real-world problems. My goal is to turn complex technology into simple, meaningful, and impactful solutions.
             </p>
 
             {/* CTA Buttons */}

@@ -52,8 +52,7 @@ const AboutSection = () => {
             About Me
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto font-inter">
-            B-Tech student passionate about Python development, AI/ML, and creating innovative 
-            solutions through code. Experienced in hackathons, cloud technologies, and real-world applications.
+            I’m Dibyaranjan Jena, a Python Developer passionate about AI, Machine Learning, and automation. I love building intelligent systems that solve real-world problems through data, creativity, and clean code. With hands-on experience in developing ML models, web apps, and automation workflows, I focus on making technology smarter and more human-centered. I’m driven by curiosity, innovation, and a constant desire to turn ideas into impactful digital experiences.
           </p>
         </div>
 
