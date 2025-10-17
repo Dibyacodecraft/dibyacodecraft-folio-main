@@ -13,6 +13,7 @@ const CertificatesGallery = () => {
     '/certificates/Screenshot 2025-10-08 163745.png',
     '/certificates/Screenshot 2025-10-08 163821.png',
     '/certificates/Screenshot 2025-10-08 163859.png',
+    '/certificates/Softech.png',
   ];
 
   const images = useMemo(() => (importedUrls.length > 0 ? importedUrls : fallbackPublic), [importedUrls]);
@@ -83,7 +84,7 @@ const CertificatesGallery = () => {
           </p>
         </div>
 
-        <div ref={gridRef} className="relative grid grid-cols-1 md:grid-cols-3 gap-6 perspective-[1200px]">
+  <div ref={gridRef} className="relative grid grid-cols-1 md:grid-cols-4 gap-6 perspective-[1200px]">
           {images.map((src, i) => (
             <div key={src} className="cert-item group relative aspect-[16/10] rounded-xl overflow-hidden neon-border bg-card/60 backdrop-blur cursor-pointer" onClick={() => openPreview(src)} role="button" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && openPreview(src)}>
               <img src={src} alt={`Certificate ${i + 1}`} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />

@@ -11,6 +11,7 @@ const HeroSection = () => {
   const [displayText, setDisplayText] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
   const fullText = 'Python Developer | AI/ML Enthusiast | Tech Innovator';
+  const [introActive, setIntroActive] = useState(false);
 
   useEffect(() => {
     if (currentIndex < fullText.length) {
@@ -53,6 +54,15 @@ const HeroSection = () => {
     return () => window.removeEventListener('mousemove', handleMove);
   }, []);
 
+  // Watch for the intro-active class on the body to hide blinking cursors during intro
+  useEffect(() => {
+    const check = () => setIntroActive(typeof document !== 'undefined' && document.body.classList.contains('intro-active'));
+    check();
+    const obs = new MutationObserver(() => check());
+    obs.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+    return () => obs.disconnect();
+  }, []);
+
   return (
     <section id="home" ref={containerRef} className="min-h-screen relative flex items-center overflow-hidden hero-parallax">
       {/* Background */}
@@ -92,7 +102,7 @@ const HeroSection = () => {
                   className="text-gradient"
                   speed={100}
                   pauseDuration={2000}
-                  showCursor={true}
+                  showCursor={!introActive}
                   cursorChar="|"
                 />
               </h1>
@@ -100,7 +110,7 @@ const HeroSection = () => {
               <div className="h-16">
                 <p className="text-xl lg:text-2xl font-inter text-muted-foreground stagger-item [--delay:0.15s]">
                   {displayText}
-                  <span className="animate-pulse text-neon-purple">|</span>
+                  {!introActive && <span className="animate-pulse text-neon-purple">|</span>}
                 </p>
               </div>
             </div>

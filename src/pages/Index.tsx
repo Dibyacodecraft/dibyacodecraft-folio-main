@@ -8,13 +8,13 @@ import ContactSection from '@/components/ContactSection';
 import Footer from '@/components/Footer';
 import LightRays from '@/components/ui/light-rays';
 import CanvasCursor from '@/components/ui/canvas-cursor';
-import HyperspeedBackground from '@/components/ui/hyperspeed';
+// Hyperspeed background removed
 import CertificatesGallery from '@/components/CertificatesGallery';
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-dark text-white overflow-x-hidden relative">
-      <HyperspeedBackground />
+  {/* Hyperspeed background removed */}
       <LightRays 
         raysColor="270" 
         raysOrigin="top-center"

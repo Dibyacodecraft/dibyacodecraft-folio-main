@@ -17,6 +17,7 @@ import GCloudLogo from '@/assets/logos/google-cloud.svg';
 import { Card, CardContent } from '@/components/ui/card';
 import SpotlightCard from '@/components/ui/spotlight-card';
 import TiltedCard from '@/components/ui/tilted-card';
+// removed DomeGallery - using a simple responsive logo grid instead
 
 const SkillsSection = () => {
   const [hoveredSkill, setHoveredSkill] = useState<number | null>(null);
@@ -123,96 +124,33 @@ const SkillsSection = () => {
         {/* Additional Technologies - Logo grid with nicer animation */}
         <div className="mt-16">
           <h3 className="text-2xl text-center font-orbitron font-bold text-foreground mb-8">Additional Technologies</h3>
-          <div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-              {[
-                { name: 'TensorFlow', logo: TensorflowLogo },
-                { name: 'PyTorch', logo: PytorchLogo },
-                { name: 'Pandas', logo: PandasLogo },
-                { name: 'NumPy', logo: NumpyLogo },
-                { name: 'OpenCV', logo: OpenCVLogo },
-                { name: 'Scikit-learn', logo: ScikitLogo },
-                { name: 'FastAPI', logo: FastAPILogo },
-                { name: 'Django', logo: DjangoLogo },
-                { name: 'Git', logo: GithubLogo },
-                { name: 'Docker', logo: DockerLogo },
-                { name: 'AWS', logo: AwsLogo },
-                { name: 'Google Cloud', logo: GCloudLogo },
-                { name: 'Python', logo: PythonLogo },
-                { name: 'React', logo: ReactLogo }
-              ].slice(0,8).map((tech, i) => (
-              <div
-                key={tech.name}
-                className="relative h-24 rounded-xl neon-border overflow-hidden bg-card/60 backdrop-blur group transform-gpu transition-transform duration-400 hover:scale-105 hover:-translate-y-1 perspective-[1000px]"
-              >
-                <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-neon-purple/10 via-electric-cyan/5 to-neon-green/10 opacity-60 group-hover:opacity-90 transition-opacity" />
-                <div className="relative z-10 h-full flex flex-col items-center justify-center px-3">
-                  {tech.logo ? (
-                    // Use the official colored SVG where available
-                    <img
-                      src={tech.logo}
-                      alt={`${tech.name} logo`}
-                      className="h-12 w-auto mb-2 transition-transform duration-300 group-hover:rotate-3 group-hover:scale-105 shadow-[0_6px_12px_rgba(0,0,0,0.35)]"
-                    />
-                  ) : (
-                    // Fallback badge with approximate brand color
-                    <div className="h-12 w-12 rounded-lg flex items-center justify-center mb-2 font-bold text-sm text-white bg-gradient-to-br from-gray-500 to-gray-900">
-                      {tech.name.split(' ').map(s => s[0]).slice(0,2).join('')}
+            <div className="max-w-4xl mx-auto">
+              <ul className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-7 gap-8 items-center justify-center" role="list" aria-label="Additional Technologies">
+                {[
+                  { name: 'TensorFlow', logo: TensorflowLogo },
+                  { name: 'PyTorch', logo: PytorchLogo },
+                  { name: 'Pandas', logo: PandasLogo },
+                  { name: 'NumPy', logo: NumpyLogo },
+                  { name: 'OpenCV', logo: OpenCVLogo },
+                  { name: 'Scikit-learn', logo: ScikitLogo },
+                  { name: 'FastAPI', logo: FastAPILogo },
+                  { name: 'Django', logo: DjangoLogo },
+                  { name: 'Git', logo: GithubLogo },
+                  { name: 'Docker', logo: DockerLogo },
+                  { name: 'AWS', logo: AwsLogo },
+                  { name: 'Google Cloud', logo: GCloudLogo },
+                  { name: 'Python', logo: PythonLogo },
+                  { name: 'React', logo: ReactLogo }
+                ].map((it) => (
+                  <li key={it.name} className="flex flex-col items-center text-center">
+                    <div className="w-24 h-24 flex items-center justify-center bg-card/60 rounded-lg shadow hover:scale-105 transition-transform">
+                      <img src={it.logo} alt={it.name} className="max-h-16 w-auto mx-auto" />
                     </div>
-                  )}
-
-                  <span className="text-xs font-inter text-muted-foreground text-center">{tech.name}</span>
-                </div>
-              </div>
-              ))}
+                    <span className="mt-3 text-sm font-medium text-foreground">{it.name}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
-
-            {/* Collapsible extra items */}
-            <div className="mt-4">
-              <div className={`overflow-hidden transition-[max-height] duration-500 ${showAll ? 'max-h-[2000px]' : 'max-h-0'}`}>
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 mt-4">
-                  {[
-                    { name: 'TensorFlow', logo: TensorflowLogo },
-                    { name: 'PyTorch', logo: PytorchLogo },
-                    { name: 'Pandas', logo: PandasLogo },
-                    { name: 'NumPy', logo: NumpyLogo },
-                    { name: 'OpenCV', logo: OpenCVLogo },
-                    { name: 'Scikit-learn', logo: ScikitLogo },
-                    { name: 'FastAPI', logo: FastAPILogo },
-                    { name: 'Django', logo: DjangoLogo },
-                    { name: 'Git', logo: GithubLogo },
-                    { name: 'Docker', logo: DockerLogo },
-                    { name: 'AWS', logo: AwsLogo },
-                    { name: 'Google Cloud', logo: GCloudLogo },
-                    { name: 'Python', logo: PythonLogo },
-                    { name: 'React', logo: ReactLogo }
-                  ].slice(8).map((tech) => (
-                    <div key={tech.name} className="relative h-24 rounded-xl neon-border overflow-hidden bg-card/60 backdrop-blur group transform-gpu transition-transform duration-400 hover:scale-105 hover:-translate-y-1 perspective-[1000px]">
-                      <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-neon-purple/10 via-electric-cyan/5 to-neon-green/10 opacity-60 group-hover:opacity-90 transition-opacity" />
-                      <div className="relative z-10 h-full flex flex-col items-center justify-center px-3">
-                        {tech.logo ? (
-                          <img src={tech.logo} alt={`${tech.name} logo`} className="h-12 w-auto mb-2 transition-transform duration-300 group-hover:rotate-3 group-hover:scale-105 shadow-[0_6px_12px_rgba(0,0,0,0.35)]" />
-                        ) : (
-                          <div className="h-12 w-12 rounded-lg flex items-center justify-center mb-2 font-bold text-sm text-white bg-gradient-to-br from-gray-500 to-gray-900">{tech.name.split(' ').map(s => s[0]).slice(0,2).join('')}</div>
-                        )}
-                        <span className="text-xs font-inter text-muted-foreground text-center">{tech.name}</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="flex justify-center mt-4">
-                <button
-                  type="button"
-                  onClick={() => setShowAll((s) => !s)}
-                  className="px-4 py-2 rounded-full bg-muted text-foreground text-sm hover:bg-muted/80 transition-colors"
-                >
-                  {showAll ? 'Show less' : 'Show more'}
-                </button>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </section>

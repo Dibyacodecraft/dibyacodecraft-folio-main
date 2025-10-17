@@ -8,8 +8,8 @@ const IntroTransition = () => {
   const rightPanelRef = useRef<HTMLDivElement | null>(null);
   const titleRef = useRef<HTMLHeadingElement | null>(null);
   const subtitleRef = useRef<HTMLParagraphElement | null>(null);
-  const macbookRef = useRef<HTMLDivElement | null>(null);
-  const screenInnerRef = useRef<HTMLDivElement | null>(null);
+  // custom loader refs
+  const loaderRef = useRef<HTMLDivElement | null>(null);
   const [hidden, setHidden] = useState(false);
 
   // Break title into spans for per-letter animation
@@ -27,14 +27,16 @@ const IntroTransition = () => {
   // Prepare letter spans
     const letters = Array.from(titleEl.querySelectorAll('.letter')) as HTMLElement[];
 
-  // ensure macbook elements are hidden initially
-  if (macbookRef.current) gsap.set(macbookRef.current, { autoAlpha: 0, scale: 0.92 });
-  if (screenInnerRef.current) gsap.set(screenInnerRef.current, { width: '0%' });
+  // ensure loader hidden initially
+  if (loaderRef.current) gsap.set(loaderRef.current, { autoAlpha: 0 });
 
     const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
 
-    // ensure overlay visible
+  // ensure overlay visible
     gsap.set(overlay, { autoAlpha: 1, display: 'flex' });
+
+  // add a body class to hide any blinking cursors/animations during the intro
+  document.body.classList.add('intro-active');
 
     // slight delay then animate panels as a curtain wipe
     tl.to(left, { xPercent: -110, duration: 0.9, ease: 'power3.inOut' }, 0.2);
@@ -52,17 +54,23 @@ const IntroTransition = () => {
     tl.fromTo(subEl, { y: 12, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45 }, 0.75);
 
   // Cartoon filter pulse (quick color/contrast pop) applied to overlay
-  tl.to(overlay, { css: { filter: 'contrast(1.35) saturate(1.3) hue-rotate(6deg)' }, duration: 0.4, yoyo: true, repeat: 1 }, '+=0.12');
+  tl.to(overlay, { css: { filter: 'contrast(1.25) saturate(1.15) hue-rotate(4deg)' }, duration: 0.35, yoyo: true, repeat: 1 }, '+=0.12');
 
-  // Then animate a MacBook mockup in with a screen reveal
-  tl.to(macbookRef.current, { autoAlpha: 1, scale: 1, duration: 0.6, ease: 'back.out(1.2)' }, '+=0.08');
-  tl.to(screenInnerRef.current, { width: '100%', duration: 0.9, ease: 'power3.out' }, '-=0.18');
+  // Show custom loader (three dots) and animate the dots
+  tl.to(loaderRef.current, { autoAlpha: 1, duration: 0.18 }, '+=0.06');
+  tl.fromTo(
+    loaderRef.current?.querySelectorAll('.dot'),
+    { y: 0, opacity: 0.5, scale: 0.8 },
+    { y: -8, opacity: 1, scale: 1, stagger: 0.12, repeat: 2, yoyo: true, duration: 0.35, ease: 'power1.inOut' },
+    '+=0.08'
+  );
 
   // small hold then fade overlay completely
-  tl.to(overlay, { delay: 0.5, duration: 0.6, opacity: 0, ease: 'power2.in', onComplete: () => setHidden(true) }, '+=0.2');
+  tl.to(overlay, { delay: 0.45, duration: 0.45, opacity: 0, ease: 'power2.in', onComplete: () => setHidden(true) }, '+=0.16');
 
     return () => {
       if (tl) tl.kill();
+      document.body.classList.remove('intro-active');
     };
   }, []);
 
@@ -73,15 +81,6 @@ const IntroTransition = () => {
       <div className="intro-panel left" ref={leftPanelRef} />
       <div className="intro-panel right" ref={rightPanelRef} />
 
-      {/* MacBook mockup (hidden initially) */}
-      <div className="intro-macbook" ref={macbookRef} aria-hidden>
-        <div className="macbook-shell">
-          <div className="macbook-screen">
-            <div className="macbook-screen-inner" ref={screenInnerRef} />
-          </div>
-        </div>
-      </div>
-
       <div className="intro-inner text-center pointer-events-none">
         <h1 ref={titleRef} className="intro-title font-orbitron text-4xl sm:text-5xl lg:text-6xl text-white">
           {titleLetters.map((ch, i) => (
@@ -89,6 +88,14 @@ const IntroTransition = () => {
           ))}
         </h1>
         <p ref={subtitleRef} className="intro-subtitle mt-4 text-muted-foreground">Python Developer • AI/ML Enthusiast</p>
+      </div>
+      {/* Custom loader (three dots) */}
+      <div className="intro-loader absolute bottom-12 left-1/2 transform -translate-x-1/2" ref={loaderRef} aria-hidden>
+        <div className="flex items-center space-x-2">
+          <span className="dot w-3 h-3 bg-neon-purple rounded-full inline-block opacity-70" />
+          <span className="dot w-3 h-3 bg-neon-blue rounded-full inline-block opacity-70" />
+          <span className="dot w-3 h-3 bg-neon-green rounded-full inline-block opacity-70" />
+        </div>
       </div>
     </div>
   );
